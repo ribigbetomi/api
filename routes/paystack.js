@@ -29,13 +29,12 @@ router.get("/verify/:reference/:orderId", async (req, res) => {
     })
     .catch((error) => {
       output = error;
-      
     });
 
   
 console.log(output.data)
    if (output.data.message === 'Verification successful') {
-    res.status(200).redirect(`${url}/checkout-success`);
+    res.status(200).redirect(`${url}/checkout-success/${orderId}`);
    } else {
     res.status(404).send('Error occured')
    }

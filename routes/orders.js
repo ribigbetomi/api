@@ -14,8 +14,8 @@ router.post(
   asyncHandler(async (req, res) => {
     const {
       orderItems,
-      userId,
-      // shippingAddress,
+      // userId,
+      shippingAddress,
       // paymentMethod,
       // itemsPrice,
       // taxPrice,
@@ -26,12 +26,11 @@ router.post(
     if (orderItems && orderItems.length === 0) {
       res.status(400);
       throw new Error("No order items");
-      
     } else {
       const order = new Order({
         orderItems,
         userId: req.user._id,
-        //   shippingAddress,
+          shippingAddress,
         //   paymentMethod,
         // itemsPrice,
         // taxPrice,
@@ -62,6 +61,7 @@ router.put('/:orderId', auth, async(req, res) => {
   if (order) {
     order.isPaid = true;
     order.paidAt = Date.now();
+    // order.shippingAddress = req.body.shippingAddress
     
 // order.paymentResult = {
 //   id: req.body.id,
@@ -77,6 +77,35 @@ res.status(404);
 throw new Error("Order Not Found");
 }
 })
+
+
+router.get(
+  "/",
+  auth,
+  asyncHandler(async (req, res) => {
+    const order = await Order.find({ userId: req.user._id }).sort({ _id: -1 });
+    res.json(order);
+  })
+);
+
+// GET ORDER BY ID
+router.get(
+  "/:id",
+  auth,
+  asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id).populate(
+      "userId",
+      "name email"
+    );
+
+    if (order) {
+      res.json(order);
+    } else {
+      res.status(404);
+      throw new Error("Order Not Found");
+    }
+  })
+);
 
 
 // //UPDATE

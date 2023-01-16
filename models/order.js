@@ -11,23 +11,29 @@ const orderSchema = mongoose.Schema(
     // paymentIntentId: { type: String },
     orderItems: [
       {
-        title: { type: String, required: true },
+        name: { type: String, required: true },
         qty: { type: Number, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
+        productNumber : {
+          type: String,
+          required: true
+        },
         // product: {
         //   type: mongoose.Schema.Types.ObjectId,
         //   required: true,
-        //   // ref: "Product",
+        //   ref: "Product",
         // },
       },
     ],
-    // shippingAddress: {
-    //   address: { type: String, required: true },
-    //   city: { type: String, required: true },
-    //   postalCode: { type: String, required: true },
-    //   country: { type: String, required: true },
-    // },
+    shippingAddress: {
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      // postalCode: { type: String },
+      country: { type: String, required: true },
+      phoneNumber: {type: String, required: true}
+     
+    },
     taxPrice: {
       type: Number,
       required: true,

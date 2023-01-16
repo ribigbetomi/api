@@ -4,7 +4,9 @@ const users = require("../routes/users");
 const auth = require("../routes/auth");
 const paystack = require("../routes/paystack");
 const orders = require("../routes/orders");
+const dataImport = require('../DataImport')
 const cors = require("cors");
+const products = require('../routes/products')
 
 module.exports = function (app) {
   app.use(express.json());
@@ -13,5 +15,7 @@ module.exports = function (app) {
   app.use("/api/auth", auth);
   app.use("/api/paystack", paystack);
   app.use("/api/orders", orders);
+  app.use('/api/import', dataImport)
+  app.use('/api/products', products)
   app.use(error);
 };
